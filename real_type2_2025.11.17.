@@ -1,0 +1,238 @@
+# 출력을 원할 경우 print() 함수 활용
+# 예시) print(df.head())
+
+# setwd(), getwd() 등 작업 폴더 설정 불필요
+# 파일 경로 상 내부 드라이브 경로(C: 등) 접근 불가
+as.data.frame(installed.packages()[,c(3,4)])
+
+library(dplyr)
+library(caret)
+library(randomForest)
+
+train = read.csv("data/customer_train.csv")
+test = read.csv("data/customer_test.csv")
+
+str(train)
+colSums(is.na(train))
+
+train <- train %>% na.omit()
+idx <- sample(1:nrow(train), nrow(train)*0.8)
+traindata <- train[idx,]
+testdata <- train[-idx,]
+
+md <- randomForest(총구매액~., data=traindata, type="response")
+
+
+
+----------------------------
+library(dplyr)
+library(caret)
+library(randomForest)
+
+train = read.csv("data/customer_train.csv")
+test = read.csv("data/customer_test.csv")
+
+str(train)
+colSums(is.na(train))
+
+train <- train %>% na.omit()
+idx <- sample(1:nrow(train), nrow(train)*0.8)
+traindata <- train[idx,]
+testdata <- train[-idx,]
+
+md <- randomForest(총구매액~., data=traindata, ntree = 300)
+pred <- predict(md, newdata = testdata,type="response" )
+rmse <- (mean(pred-test$총구매액)^2)^(1/2)
+print(round(rmse,3))
+---------------------------------------------------------------------------
+library(dplyr)
+library(caret)
+library(randomForest)
+
+train = read.csv("data/customer_train.csv")
+test = read.csv("data/customer_test.csv")
+
+str(train)
+colSums(is.na(train))
+
+train <- train %>% na.omit()
+idx <- sample(1:nrow(train), nrow(train)*0.8)
+traindata <- train[idx,]
+testdata <- train[-idx,]
+
+md <- randomForest(총구매액~., data=traindata, ntree = 300)
+pred <- predict(md, newdata = testdata,type="response" )
+rmse <- (mean((pred-testdata$총구매액)^2))^(1/2)
+print(round(rmse,3))
+
+----------------------------------------------------------------------
+library(dplyr)
+library(caret)
+library(randomForest)
+
+train = read.csv("data/customer_train.csv")
+test = read.csv("data/customer_test.csv")
+
+str(train)
+colSums(is.na(train))
+
+train <- train %>% na.omit()
+idx <- sample(1:nrow(train), nrow(train)*0.8)
+traindata <- train[idx,]
+testdata <- train[-idx,]
+
+md <- randomForest(총구매액~., data=traindata, ntree = 300)
+pred <- predict(md, newdata = testdata,type="response" )
+rmse <- (mean((pred-testdata$총구매액)^2))^(1/2)
+print(round(rmse,3))
+
+ctrl <- trainControl(method = "cv", number = 3)
+tune_grid <- expand.grid(metry = c(2,3,4))
+
+md2 <- train(총구매액~., data=traindata, "rf", "RMSE", ctrl, tune_grid, ntree = 300)
+
+pred2 <- predict(md2, newdata = testdata, type="response")
+
+rmse_tune <- (mean((pred2-testdata$총구매액)^2))^(1/2)
+print(round(rmse_tune,3))
+
+-------------------------------------------
+library(dplyr)
+library(caret)
+library(randomForest)
+
+train = read.csv("data/customer_train.csv")
+test = read.csv("data/customer_test.csv")
+
+str(train)
+colSums(is.na(train))
+
+train <- train %>% na.omit()
+idx <- sample(1:nrow(train), nrow(train)*0.8)
+traindata <- train[idx,]
+testdata <- train[-idx,]
+
+md <- randomForest(총구매액~., data=traindata, ntree = 300)
+pred <- predict(md, newdata = testdata,type="response" )
+rmse <- (mean((pred-testdata$총구매액)^2))^(1/2)
+print(round(rmse,3))
+
+ctrl <- trainControl(method = "cv", number = 3)
+tune_grid <- expand.grid(mtry = c(2,3,4))
+
+md2 <- train(총구매액~., data=traindata, method="rf", metric = "RMSE", trControl = ctrl, tuneGrid = tune_grid, ntree = 300)
+
+pred2 <- predict(md2, newdata = testdata, type="response")
+
+rmse_tune <- (mean((pred2-testdata$총구매액)^2))^(1/2)
+print(round(rmse_tune,3))
+
+--------------------------------------------------------------------------------
+library(dplyr)
+library(caret)
+library(randomForest)
+
+train = read.csv("data/customer_train.csv")
+test = read.csv("data/customer_test.csv")
+
+str(train)
+colSums(is.na(train))
+
+train <- train %>% na.omit()
+idx <- sample(1:nrow(train), nrow(train)*0.8)
+traindata <- train[idx,]
+testdata <- train[-idx,]
+
+md <- randomForest(총구매액~., data=traindata, ntree = 300)
+pred <- predict(md, newdata = testdata,type="response" )
+rmse <- (mean((pred-testdata$총구매액)^2))^(1/2)
+print(round(rmse,3))
+
+ctrl <- trainControl(method = "cv", number = 3)
+tune_grid <- expand.grid(mtry = c(2,3,4))
+
+md2 <- train(총구매액~., data=traindata, method="rf", metric = "RMSE", trControl = ctrl, tuneGrid = tune_grid, ntree = 300)
+
+pred2 <- predict(md2, newdata = testdata)
+
+rmse_tune <- (mean((pred2-testdata$총구매액)^2))^(1/2)
+print(round(rmse_tune,3))
+
+-------------------------------------------------------------------------------------------
+library(dplyr)
+library(caret)
+library(randomForest)
+
+train = read.csv("data/customer_train.csv")
+test = read.csv("data/customer_test.csv")
+
+str(train)
+colSums(is.na(train))
+
+train <- train %>% na.omit()
+idx <- sample(1:nrow(train), nrow(train)*0.8)
+traindata <- train[idx,]
+testdata <- train[-idx,]
+
+md <- randomForest(총구매액~., data=traindata, ntree = 300)
+pred <- predict(md, newdata = testdata,type="response" )
+rmse <- (mean((pred-testdata$총구매액)^2))^(1/2)
+print(round(rmse,3))
+
+ctrl <- trainControl(method = "cv", number = 3)
+tune_grid <- expand.grid(mtry = c(2,3,4))
+
+md2 <- train(총구매액~., data=traindata, method="rf", metric = "RMSE", trControl = ctrl, tuneGrid = tune_grid, ntree = 300)
+
+pred2 <- predict(md2, newdata = testdata)
+
+rmse_tune <- (mean((pred2-testdata$총구매액)^2))^(1/2)
+print(round(rmse_tune,3))
+
+---------------------------------------
+library(dplyr)
+library(caret)
+library(randomForest)
+
+train = read.csv("data/customer_train.csv")
+test = read.csv("data/customer_test.csv")
+
+str(train)
+colSums(is.na(train))
+
+train <- train %>% na.omit()
+idx <- sample(1:nrow(train), nrow(train)*0.8)
+traindata <- train[idx,]
+testdata <- train[-idx,]
+
+md <- randomForest(총구매액~., data=traindata, ntree = 300)
+pred <- predict(md, newdata = testdata,type="response" )
+rmse <- (mean((pred-testdata$총구매액)^2))^(1/2)
+print(round(rmse,3))
+
+ctrl <- trainControl(method = "cv", number = 3)
+tune_grid <- expand.grid(mtry = c(2,3,4))
+
+md2 <- train(총구매액~., data=traindata, method="rf", metric = "RMSE", trControl = ctrl, tuneGrid = tune_grid, ntree = 300)
+
+pred2 <- predict(md2, newdata = testdata)
+
+rmse_tune <- (mean((pred2-testdata$총구매액)^2))^(1/2)
+print(round(rmse_tune,3))
+
+
+pred_tune <- predict(md2, newdata = test)
+result <- data.frame(pred = pred_tune)
+write.csv(result,"result.csv", row.names=FALSE)
+
+
+
+
+
+
+
+# 사용자 코딩
+
+# 답안 제출 참고
+# 아래 코드는 예시이며 변수명 등 개인별로 변경하여 활용
+# write.csv(data.frame변수,"result.csv",row.names = FALSE)
