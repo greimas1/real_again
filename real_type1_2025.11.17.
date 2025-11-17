@@ -1,0 +1,32 @@
+# 출력을 원할 경우 print() 함수 활용
+# 예시) print(df.head())
+
+# setwd(), getwd() 등 작업 폴더 설정 불필요
+# 파일 경로 상 내부 드라이브 경로(C: 등) 접근 불가
+library(dplyr)
+df = read.csv("data/employee_performance.csv")
+str(df)
+colSums(is.na(df))
+
+df$고객만족도 <- ifelse(is.na(df$고객만족도), mean(df$고객만족도, na.rm=TRUE), df$고객만족도)
+df <- df %>% na.omit()
+
+# 사용자 코딩
+library(dplyr)
+df = read.csv("data/employee_performance.csv")
+str(df)
+colSums(is.na(df))
+
+df$고객만족도 <- ifelse(is.na(df$고객만족도), mean(df$고객만족도, na.rm=TRUE), df$고객만족도)
+df <- df %>% na.omit()
+
+q3 <- quantile(df$고객만족도, 0.75)
+
+print(as.integer(q3))
+
+df <- df %>% group_by(부서) %>% summarise(평균연봉=mean(연봉), .groups="drop") %>% arrange(desc(평균연봉))
+
+print(as.integer(df$평균연봉[2]))
+
+
+# 해당 화면에서는 제출하지 않으며, 문제 풀이 후 답안제출에서 결괏값 제출
